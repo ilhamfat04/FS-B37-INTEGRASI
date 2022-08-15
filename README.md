@@ -63,6 +63,15 @@
   ```
 
   `We get product data from fetching product data process`
+  
+  Create process for fetching product by id data from database with useQuery
+  
+  ```javascript
+  let { data: product } = useQuery('productCache', async () => {
+    const response = await API.get('/product/' + id);
+    return response.data.data;
+  });
+  ```
 
   Handle buy process & insert transaction data to database :
 
