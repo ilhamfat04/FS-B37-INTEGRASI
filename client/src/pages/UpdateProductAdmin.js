@@ -37,6 +37,8 @@ export default function UpdateProductAdmin() {
     return response.data.data;
   });
 
+  console.log(products);
+
   // Create function get category data by id from database here ...
   let { data: categoriesData, refetch: refetchCategories } = useQuery(
     'categoriesCache',
