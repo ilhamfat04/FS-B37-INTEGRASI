@@ -2,6 +2,7 @@ package routes
 
 import (
 	"dumbmerch/handlers"
+	"dumbmerch/pkg/middleware"
 	"dumbmerch/pkg/mysql"
 	"dumbmerch/repositories"
 
@@ -14,7 +15,7 @@ func CategoryRoutes(r *mux.Router) {
 
 	r.HandleFunc("/categories", h.FindCategories).Methods("GET")
 	r.HandleFunc("/category/{id}", h.GetCategory).Methods("GET")
-	r.HandleFunc("/category", h.CreateCategory).Methods("POST")
+	r.HandleFunc("/category", middleware.Auth(h.CreateCategory)).Methods("POST")
 	r.HandleFunc("/category/{id}", h.UpdateCategory).Methods("PATCH")
 	r.HandleFunc("/category/{id}", h.DeleteCategory).Methods("DELETE")
 }

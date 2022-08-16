@@ -7,11 +7,9 @@ import { useMutation, useQuery } from 'react-query';
 
 import NavbarAdmin from '../components/NavbarAdmin';
 
-// Get API config here ...
 import { API } from '../config/api';
 
 export default function AddProductAdmin() {
-  console.clear();
   const title = 'Product admin';
   document.title = 'DumbMerch | ' + title;
 
@@ -23,13 +21,12 @@ export default function AddProductAdmin() {
 
   // Create variabel for store data with useState here ...
   const [form, setForm] = useState({
+    image: '',
     name: '',
     desc: '',
-    image: '',
     price: '',
     qty: '',
-  });
-
+  }); //Store product data
 
   // Fetching category data
   const getCategories = async () => {
@@ -78,35 +75,37 @@ export default function AddProductAdmin() {
     try {
       e.preventDefault();
 
-      // Configuration Content-type
+      // Configuration
       const config = {
         headers: {
           'Content-type': 'multipart/form-data',
         },
       };
 
-      // Data body
-      const formData = new FormData()
-      formData.set('image', form.image[0], form.image[0].name)
-      formData.set('name', form.name)
-      formData.set('desc', form.desc)
-      formData.set('price', form.price)
-      formData.set('qty', form.qty)
-      formData.set('categoryId', form.categoryId)
+      // Store data with FormData as object
+      const formData = new FormData();
+      formData.set('image', form.image[0], form.image[0].name);
+      formData.set('name', form.name);
+      formData.set('desc', form.desc);
+      formData.set('price', form.price);
+      formData.set('qty', form.qty);
+      formData.set('categoryId', categoryId);
 
-      // Insert data user to database
-      console.log(formData);
+      console.log(form);
+
+      // Insert product data
       const response = await API.post('/product', formData, config);
-      navigate("/product-admin")
+      console.log(response);
 
+      navigate('/product-admin');
     } catch (error) {
       console.log(error);
     }
   });
 
-  useEffect(() => {
-    getCategories();
-  }, []);
+  // useEffect(() => {
+  //   getCategories();
+  // }, []);
 
   return (
     <>
