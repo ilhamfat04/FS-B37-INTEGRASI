@@ -19,8 +19,16 @@ export default function ProductAdmin() {
   document.title = 'DumbMerch | ' + title;
 
   // Create variabel for id product and confirm delete data with useState here ...
+  const [idDelete, setIdDelete] = useState(null);
+  const [confirmDelete, setConfirmDelete] = useState(null);
+
+  // console.log(idDelete,confirmDelete);
 
   // Create init useState & function for handle show-hide modal confirm here ...
+  // Modal Confirm delete data
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   let { data: products, refetch } = useQuery('productsCache', async () => {
     const response = await API.get('/products');
@@ -36,15 +44,37 @@ export default function ProductAdmin() {
   };
 
   // Create function handle get id product & show modal confirm delete data here ...
+  // For get id product & show modal confirm delete data
+  const handleDelete = (id) => {
+    setIdDelete(id);
+    handleShow();
+  };
 
   // Create function for handle delete product here ...
   // If confirm is true, execute delete data
+  const deleteById = useMutation(async (id) => {
+    try {
+      await API.delete(`/product/${id}`);
+      refetch();
+    } catch (error) {
+      console.log(error);
+    }
+  });
 
   // Call function for handle close modal and execute delete data with useEffect here ...
+  useEffect(() => {
+    if (confirmDelete) {
+      // Close modal confirm delete data
+      handleClose();
+      // execute delete data by id function
+      deleteById.mutate(idDelete);
+      setConfirmDelete(null);
+    }
+  }, [confirmDelete]);
 
   return (
     <>
-      <NavbarAdmin title={title} />
+      <NavbarAdmin title={ title } />
 
       <Container className="py-5">
         <Row>
@@ -53,15 +83,15 @@ export default function ProductAdmin() {
           </Col>
           <Col xs="6" className="text-end">
             <Button
-              onClick={addProduct}
+              onClick={ addProduct }
               className="btn-dark"
-              style={{ width: '100px' }}
+              style={ { width: '100px' } }
             >
               Add
             </Button>
           </Col>
           <Col xs="12">
-            {products?.length !== 0 ? (
+            { products?.length !== 0 ? (
               <Table striped hover size="lg" variant="dark">
                 <thead>
                   <tr>
@@ -77,81 +107,81 @@ export default function ProductAdmin() {
                   </tr>
                 </thead>
                 <tbody>
-                  {products?.map((item, index) => (
-                    <tr key={index}>
-                      <td className="align-middle text-center">{index + 1}</td>
+                  { products?.map((item, index) => (
+                    <tr key={ index }>
+                      <td className="align-middle text-center">{ index + 1 }</td>
                       <td className="align-middle">
                         <img
-                          src={item.image}
-                          style={{
+                          src={ item.image }
+                          style={ {
                             width: '80px',
                             height: '80px',
                             objectFit: 'cover',
-                          }}
-                          alt={item.name}
+                          } }
+                          alt={ item.name }
                         />
                       </td>
-                      <td className="align-middle">{item.name}</td>
+                      <td className="align-middle">{ item.name }</td>
                       <td className="align-middle">
                         <ShowMoreText
                           /* Default options */
-                          lines={1}
+                          lines={ 1 }
                           more="show"
                           less="hide"
                           className="content-css"
                           anchorClass="my-anchor-css-class"
-                          expanded={false}
-                          width={280}
+                          expanded={ false }
+                          width={ 280 }
                         >
-                          {item.desc}
+                          { item.desc }
                         </ShowMoreText>
                       </td>
                       <td className="align-middle">
-                        {rupiahFormat.convert(item.price)}
+                        { rupiahFormat.convert(item.price) }
                       </td>
-                      <td className="align-middle">{item.qty}</td>
+                      <td className="align-middle">{ item.qty }</td>
                       <td className="align-middle">
                         <Button
-                          onClick={() => {
+                          onClick={ () => {
                             handleUpdate(item.id);
-                          }}
+                          } }
                           className="btn-sm btn-success me-2"
-                          style={{ width: '135px' }}
+                          style={ { width: '135px' } }
                         >
                           Edit
                         </Button>
                         <Button
-                          onClick={() => {
+                          onClick={ () => {
                             handleDelete(item.id);
-                          }}
+                          } }
                           className="btn-sm btn-danger"
-                          style={{ width: '135px' }}
+                          style={ { width: '135px' } }
                         >
                           Delete
                         </Button>
                       </td>
                     </tr>
-                  ))}
+                  )) }
                 </tbody>
               </Table>
             ) : (
               <div className="text-center pt-5">
                 <img
-                  src={imgEmpty}
+                  src={ imgEmpty }
                   className="img-fluid"
-                  style={{ width: '40%' }}
+                  style={ { width: '40%' } }
                   alt="empty"
                 />
                 <div className="mt-3">No data product</div>
               </div>
-            )}
+            ) }
           </Col>
         </Row>
       </Container>
       <DeleteData
-        setConfirmDelete={setConfirmDelete}
-        show={show}
-        handleClose={handleClose}
+        setConfirmDelete={ setConfirmDelete }
+        show={ show }
+        handleClose={ handleClose }
       />
     </>
   );
