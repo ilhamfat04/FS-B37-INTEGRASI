@@ -105,33 +105,33 @@ export default function AddProductAdmin() {
 
   return (
     <>
-      <NavbarAdmin title={title} />
+      <NavbarAdmin title={ title } />
       <Container className="py-5">
         <Row>
           <Col xs="12">
             <div className="text-header-category mb-4">Add Product</div>
           </Col>
           <Col xs="12">
-            <form onSubmit={(e) => handleSubmit.mutate(e)}>
-              {preview && (
+            <form onSubmit={ (e) => handleSubmit.mutate(e) }>
+              { preview && (
                 <div>
                   <img
-                    src={preview}
-                    style={{
+                    src={ preview }
+                    style={ {
                       maxWidth: '150px',
                       maxHeight: '150px',
                       objectFit: 'cover',
-                    }}
-                    alt={preview}
+                    } }
+                    alt={ preview }
                   />
                 </div>
-              )}
+              ) }
               <input
                 type="file"
                 id="upload"
                 name="image"
                 hidden
-                onChange={handleChange}
+                onChange={ handleChange }
               />
               <label for="upload" className="label-file-add-product">
                 Upload file
@@ -140,48 +140,48 @@ export default function AddProductAdmin() {
                 type="text"
                 placeholder="Product Name"
                 name="name"
-                onChange={handleChange}
+                onChange={ handleChange }
                 className="input-edit-category mt-4"
               />
               <textarea
                 placeholder="Product Desc"
                 name="desc"
-                onChange={handleChange}
+                onChange={ handleChange }
                 className="input-edit-category mt-4"
-                style={{ height: '130px' }}
+                style={ { height: '130px' } }
               ></textarea>
               <input
                 type="number"
                 placeholder="Price (Rp.)"
                 name="price"
-                onChange={handleChange}
+                onChange={ handleChange }
                 className="input-edit-category mt-4"
               />
               <input
                 type="number"
                 placeholder="Stock"
                 name="qty"
-                onChange={handleChange}
+                onChange={ handleChange }
                 className="input-edit-category mt-4"
               />
 
               <div className="card-form-input mt-4 px-2 py-1 pb-2">
                 <div
                   className="text-secondary mb-1"
-                  style={{ fontSize: '15px' }}
+                  style={ { fontSize: '15px' } }
                 >
                   Category
                 </div>
-                {categories.map((item, index) => (
-                  <label className="checkbox-inline me-4" key={index}>
+                { categories.map((item, index) => (
+                  <label className="checkbox-inline me-4" key={ index }>
                     <input
                       type="checkbox"
-                      value={item.id}
-                      onClick={handleChangeCategoryId}
-                    />{' '}
-                    {item.name}
+                      value={ item.id }
+                      onClick={ handleChangeCategoryId }
+                    />{ ' ' }
+                    { item.name }
                   </label>
-                ))}
+                )) }
               </div>
 
               <div className="d-grid gap-2 mt-4">
