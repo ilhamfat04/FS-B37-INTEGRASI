@@ -3,10 +3,12 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
 
 // Import useMutation and useQuery from react-query here ...
+import { useMutation, useQuery } from 'react-query';
 
 import NavbarAdmin from '../components/NavbarAdmin';
 
 // Get API config here ...
+import { API } from '../config/api';
 
 export default function AddProductAdmin() {
   console.clear();
@@ -20,6 +22,14 @@ export default function AddProductAdmin() {
   const [preview, setPreview] = useState(null); //For image preview
 
   // Create variabel for store data with useState here ...
+  const [form, setForm] = useState({
+    name: '',
+    desc: '',
+    image: '',
+    price: '',
+    qty: '',
+  });
+
 
   // Fetching category data
   const getCategories = async () => {
@@ -64,40 +74,69 @@ export default function AddProductAdmin() {
   };
 
   // Create function for handle insert product data with useMutation here ...
+  const handleSubmit = useMutation(async (e) => {
+    try {
+      e.preventDefault();
 
-  // useEffect(() => {
-  //   getCategories();
-  // }, []);
+      // Configuration Content-type
+      const config = {
+        headers: {
+          'Content-type': 'multipart/form-data',
+        },
+      };
+
+      // Data body
+      const formData = new FormData()
+      formData.set('image', form.image[0], form.image[0].name)
+      formData.set('name', form.name)
+      formData.set('desc', form.desc)
+      formData.set('price', form.price)
+      formData.set('qty', form.qty)
+      formData.set('categoryId', form.categoryId)
+
+      // Insert data user to database
+      console.log(formData);
+      const response = await API.post('/product', formData, config);
+      navigate("/product-admin")
+
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+  useEffect(() => {
+    getCategories();
+  }, []);
 
   return (
     <>
-      <NavbarAdmin title={title} />
+      <NavbarAdmin title={ title } />
       <Container className="py-5">
         <Row>
           <Col xs="12">
             <div className="text-header-category mb-4">Add Product</div>
           </Col>
           <Col xs="12">
-            <form onSubmit={(e) => handleSubmit.mutate(e)}>
-              {preview && (
+            <form onSubmit={ (e) => handleSubmit.mutate(e) }>
+              { preview && (
                 <div>
                   <img
-                    src={preview}
-                    style={{
+                    src={ preview }
+                    style={ {
                       maxWidth: '150px',
                       maxHeight: '150px',
                       objectFit: 'cover',
-                    }}
-                    alt={preview}
+                    } }
+                    alt={ preview }
                   />
                 </div>
-              )}
+              ) }
               <input
                 type="file"
                 id="upload"
                 name="image"
                 hidden
-                onChange={handleChange}
+                onChange={ handleChange }
               />
               <label for="upload" className="label-file-add-product">
                 Upload file
@@ -106,48 +145,48 @@ export default function AddProductAdmin() {
                 type="text"
                 placeholder="Product Name"
                 name="name"
-                onChange={handleChange}
+                onChange={ handleChange }
                 className="input-edit-category mt-4"
               />
               <textarea
                 placeholder="Product Desc"
                 name="desc"
-                onChange={handleChange}
+                onChange={ handleChange }
                 className="input-edit-category mt-4"
-                style={{ height: '130px' }}
+                style={ { height: '130px' } }
               ></textarea>
               <input
                 type="number"
                 placeholder="Price (Rp.)"
                 name="price"
-                onChange={handleChange}
+                onChange={ handleChange }
                 className="input-edit-category mt-4"
               />
               <input
                 type="number"
                 placeholder="Stock"
                 name="qty"
-                onChange={handleChange}
+                onChange={ handleChange }
                 className="input-edit-category mt-4"
               />
 
               <div className="card-form-input mt-4 px-2 py-1 pb-2">
                 <div
                   className="text-secondary mb-1"
-                  style={{ fontSize: '15px' }}
+                  style={ { fontSize: '15px' } }
                 >
                   Category
                 </div>
-                {categories?.map((item, index) => (
-                  <label className="checkbox-inline me-4" key={index}>
+                { categories?.map((item, index) => (
+                  <label className="checkbox-inline me-4" key={ index }>
                     <input
                       type="checkbox"
-                      value={item?.id}
-                      onClick={handleChangeCategoryId}
-                    />{' '}
-                    {item?.name}
+                      value={ item?.id }
+                      onClick={ handleChangeCategoryId }
+                    />{ ' ' }
+                    { item?.name }
                   </label>
-                ))}
+                )) }
               </div>
 
               <div className="d-grid gap-2 mt-4">

@@ -9,6 +9,8 @@ import DeleteData from '../components/modal/DeleteData';
 
 import imgEmpty from '../assets/empty.svg';
 
+const products = []
+
 export default function ProductAdmin() {
   let navigate = useNavigate();
 
@@ -25,7 +27,7 @@ export default function ProductAdmin() {
 
   return (
     <>
-      <NavbarAdmin title={title} />
+      <NavbarAdmin title={ title } />
 
       <Container className="py-5">
         <Row>
@@ -34,15 +36,15 @@ export default function ProductAdmin() {
           </Col>
           <Col xs="6" className="text-end">
             <Button
-              onClick={addProduct}
+              onClick={ addProduct }
               className="btn-dark"
-              style={{ width: '100px' }}
+              style={ { width: '100px' } }
             >
               Add
             </Button>
           </Col>
           <Col xs="12">
-            {products?.length !== 0 ? (
+            { products?.length !== 0 ? (
               <Table striped hover size="lg" variant="dark">
                 <thead>
                   <tr>
@@ -58,81 +60,81 @@ export default function ProductAdmin() {
                   </tr>
                 </thead>
                 <tbody>
-                  {products?.map((item, index) => (
-                    <tr key={index}>
-                      <td className="align-middle text-center">{index + 1}</td>
+                  { products?.map((item, index) => (
+                    <tr key={ index }>
+                      <td className="align-middle text-center">{ index + 1 }</td>
                       <td className="align-middle">
                         <img
-                          src={item.image}
-                          style={{
+                          src={ item.image }
+                          style={ {
                             width: '80px',
                             height: '80px',
                             objectFit: 'cover',
-                          }}
-                          alt={item.name}
+                          } }
+                          alt={ item.name }
                         />
                       </td>
-                      <td className="align-middle">{item.name}</td>
+                      <td className="align-middle">{ item.name }</td>
                       <td className="align-middle">
                         <ShowMoreText
                           /* Default options */
-                          lines={1}
+                          lines={ 1 }
                           more="show"
                           less="hide"
                           className="content-css"
                           anchorClass="my-anchor-css-class"
-                          expanded={false}
-                          width={280}
+                          expanded={ false }
+                          width={ 280 }
                         >
-                          {item.desc}
+                          { item.desc }
                         </ShowMoreText>
                       </td>
                       <td className="align-middle">
-                        {rupiahFormat.convert(item.price)}
+                        { rupiahFormat.convert(item.price) }
                       </td>
-                      <td className="align-middle">{item.qty}</td>
+                      <td className="align-middle">{ item.qty }</td>
                       <td className="align-middle">
                         <Button
-                          onClick={() => {
+                          onClick={ () => {
                             handleUpdate(item.id);
-                          }}
+                          } }
                           className="btn-sm btn-success me-2"
-                          style={{ width: '135px' }}
+                          style={ { width: '135px' } }
                         >
                           Edit
                         </Button>
                         <Button
-                          onClick={() => {
-                            handleDelete(item.id);
-                          }}
+                          // onClick={ () => {
+                          //   handleDelete(item.id);
+                          // } }
                           className="btn-sm btn-danger"
-                          style={{ width: '135px' }}
+                          style={ { width: '135px' } }
                         >
                           Delete
                         </Button>
                       </td>
                     </tr>
-                  ))}
+                  )) }
                 </tbody>
               </Table>
             ) : (
               <div className="text-center pt-5">
                 <img
-                  src={imgEmpty}
+                  src={ imgEmpty }
                   className="img-fluid"
-                  style={{ width: '40%' }}
+                  style={ { width: '40%' } }
                   alt="empty"
                 />
                 <div className="mt-3">No data product</div>
               </div>
-            )}
+            ) }
           </Col>
         </Row>
       </Container>
       <DeleteData
-        setConfirmDelete={setConfirmDelete}
-        show={show}
-        handleClose={handleClose}
+      // setConfirmDelete={ setConfirmDelete }
+      // show={ show }
+      // handleClose={ handleClose }
       />
     </>
   );
