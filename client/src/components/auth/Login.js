@@ -56,7 +56,7 @@ export default function Login() {
 
         // Status check
         if (response.data.data.status === 'admin') {
-          navigate('/complain-admin');
+          navigate('/product-admin');
         } else {
           navigate('/');
         }
@@ -83,28 +83,28 @@ export default function Login() {
     <div className="d-flex justify-content-center">
       <div className="card-auth p-4">
         <div
-          style={{ fontSize: '36px', lineHeight: '49px', fontWeight: '700' }}
+          style={ { fontSize: '36px', lineHeight: '49px', fontWeight: '700' } }
           className="mb-3"
         >
           Login
         </div>
-        {message && message}
-        <form onSubmit={(e) => handleSubmit.mutate(e)}>
+        { message && message }
+        <form onSubmit={ (e) => handleSubmit.mutate(e) }>
           <div className="mt-3 form">
             <input
               type="email"
               placeholder="Email"
-              value={email}
+              value={ email }
               name="email"
-              onChange={handleChange}
+              onChange={ handleChange }
               className="px-3 py-2 mt-3"
             />
             <input
               type="password"
               placeholder="Password"
-              value={password}
+              value={ password }
               name="password"
-              onChange={handleChange}
+              onChange={ handleChange }
               className="px-3 py-2 mt-3"
             />
           </div>
