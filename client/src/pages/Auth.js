@@ -6,7 +6,7 @@ import { UserContext } from "../context/userContext";
 
 import ImgDumbMerch from "../assets/DumbMerch.png";
 
-// import Login from "../components/auth/Login";
+import Login from "../components/auth/Login";
 import Register from "../components/auth/Register";
 
 export default function Auth() {
@@ -51,8 +51,7 @@ export default function Auth() {
               </button>
             </div>
           </Col>
-          {/* <Col md="6">{isRegister ? <Register /> : <Login />}</Col> */ }
-          <Col md="6"><Register /></Col>
+          <Col md="6">{ isRegister ? <Register /> : <Login /> }</Col>
         </Row>
       </Container>
     </div>

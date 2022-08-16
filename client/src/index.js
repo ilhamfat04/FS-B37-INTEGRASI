@@ -21,7 +21,7 @@ const client = new QueryClient();
 ReactDOM.render(
   <React.StrictMode>
     <UserContextProvider>
-      <QueryClientProvider client={client}>
+      <QueryClientProvider client={ client }>
         <Router>
           <App />
         </Router>
